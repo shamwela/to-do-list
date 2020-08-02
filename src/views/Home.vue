@@ -43,7 +43,7 @@ export default {
   },
   created() {
     axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=5")
+      .get("https://jsonplaceholder.typicode.com/todos?_limit=3")
       .then((res) => (this.todos = res.data)) // Add data from API to todos
       .catch((err) => console.log(err));
   },
