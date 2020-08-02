@@ -10,39 +10,44 @@
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
 import Todos from "./components/Todos";
+import axios from "axios";
 
 export default {
   name: "App",
   components: { Header, AddTodo, Todos },
   data() {
     return {
-      todos: [
-        {
-          id: 1,
-          title: "Todo One",
-          completed: true,
-        },
-        {
-          id: 2,
-          title: "Todo Two",
-          completed: true,
-        },
-        {
-          id: 3,
-          title: "Todo Three",
-          completed: false,
-        },
-      ],
+      todos: [],
     };
   },
   methods: {
     // Remove a TodoItem based on ID
     deleteTodo(id) {
-      this.todos = this.todos.filter((todo) => todo.id !== id);
+      axios
+        // Delete using ID
+        .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+        // Basically this is deleting a todo
+        .then(() => (this.todos = this.todos.filter((todo) => todo.id !== id)))
+        .catch((err) => console.log(err));
     },
     addTodo(newTodo) {
-      this.todos = [newTodo, ...this.todos];
+      const { title, completed } = newTodo;
+
+      // Get a Response & Display data from API
+      axios
+        .post("https://jsonplaceholder.typicode.com/todos", {
+          title,
+          completed,
+        })
+        .then((res) => (this.todos = [res.data, ...this.todos]))
+        .catch((err) => console.log(err));
     },
+  },
+  created() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos?_limit=5")
+      .then((res) => (this.todos = res.data)) // Add data from API to todos
+      .catch((err) => console.log(err));
   },
 };
 </script>
