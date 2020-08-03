@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     addTodo(event) {
-      event.preventDefault(); // Prevent submitting actually
+      event.preventDefault(); // Prevent actually submitting
 
       const newTodo = {
         title: this.title,

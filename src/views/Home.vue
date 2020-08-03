@@ -25,7 +25,10 @@ export default {
         // Delete using ID
         .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
         // Basically this is deleting a todo
-        .then(() => (this.todos = this.todos.filter((todo) => todo.id !== id)))
+        .then(
+          (res) =>
+            (this.todos = this.todos.filter((todo) => todo.id !== id, res.data))
+        )
         .catch((err) => console.log(err));
     },
     addTodo(newTodo) {
